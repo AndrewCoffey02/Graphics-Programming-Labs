@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+
+      canvas {
+        border : black;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+  <canvas id="canvasOne" width="300" height="400"></canvas>
+
+    <script type="text/javascript">
+
+		// Gets a handle to the element with id canvasOne.
+		var canvas = document.getElementById("canvasOne");
+
+		// Set the canvas up for drawing in 2D.
+      var ctx = canvas.getContext("2d");
+
+		// Set the fill colour to bright red.
+      ctx.fillStyle = "rgb(255, 0, 0)";
+
+		// Create a filled rectangle 
+      ctx.strokeRect(0, 8, 225, 300);
+      ctx.strokeRect(46.5, 8, 132, 54);
+      ctx.strokeRect(82.5, 8, 60, 18);
+      ctx.strokeRect(100.5, 0, 24, 8);
+      ctx.strokeRect(46.5, 308, 132, -54);
+      ctx.strokeRect(82.5, 308, 60, -18);
+      ctx.strokeRect(100.5, 308, 24, 8);
+      ctx.strokeRect(235, 128, 20, -60);
+      ctx.strokeRect(235, 143, 20, 30);
+      ctx.strokeRect(235, 188, 20, 60);
+
+      ctx.beginPath();
+      ctx.arc(112.5, 40, 30, 3*Math.PI/4, Math.PI/4, true);
+      ctx.moveTo(114.5, 44);
+      ctx.arc(112.5, 44, 2, 0, 2*Math.PI, true);
+      ctx.moveTo(131, 254);
+      ctx.arc(112.5, 276, 30, 7*Math.PI/4, 5*Math.PI/4, true);
+      ctx.moveTo(112.5, 272);
+      ctx.arc(112.5, 272, 2, 0, 2*Math.PI, true);
+      ctx.moveTo(0, 158);
+      ctx.lineTo(225, 158);
+      ctx.moveTo(112.5, 158);
+      ctx.arc(112.5, 158, 30, 0, 2*Math.PI);
+      ctx.stroke();
+      
+    </script>
+
+  </body>
+
+</html>
