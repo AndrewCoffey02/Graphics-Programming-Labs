@@ -21,13 +21,13 @@
 
     <script type="text/javascript">
 		// Gets a handle to the element with id canvasOne.
-		
+		var canvas = document.getElementById("canvasOne");
 		// Set the canvas up for drawing in 2D.
-		
+		var ctx = canvas.getContext("2d");
 		// Set the fill colour to bright red.
-		
+		ctx.fillStyle = "rgb(255, 0, 0)";
 		// Create a filled rectangle 
-		
+		ctx.fillRect(0,0,100,50);
 	  
 		
     </script>
