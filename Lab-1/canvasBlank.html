@@ -34,6 +34,18 @@
     
     ctx.fillStyle = "rgba(0, 0, 255, 50%)";
     ctx.fillRect(0, 25, 100, 100);
+
+    ctx.beginPath();
+    ctx.arc(50, 180, 25, 0, 2*Math.PI, false);
+    ctx.fillStyle = "purple";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(75, 250);
+    ctx.arc(50, 250, 25, 0, 2*Math.PI, false);
+    ctx.fillStyle = "orange";
+    ctx.fill();
+    ctx.stroke();
 	  
 		
     </script>
