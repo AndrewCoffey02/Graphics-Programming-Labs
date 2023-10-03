@@ -30,6 +30,7 @@
       var y = 10;
       // A function to repeat every time the animation loops.
       function repeatme() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         // Draw the ball (stroked, not filled).
         ctx.beginPath();
         ctx.arc(50, y, 3, 0, 2 * Math.PI);
@@ -37,6 +38,10 @@
         
         // Update the y location.
         y += 1;
+        //if ball is 
+        if(y == 145){
+          return;
+        }
         
         window.requestAnimationFrame(repeatme);
       }
