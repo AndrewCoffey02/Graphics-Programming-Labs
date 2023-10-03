@@ -17,7 +17,7 @@
 
   <body>
 
-    <canvas id="canvasOne" width="300" height="300"></canvas>
+    <canvas id="canvasOne" width="300" height="500"></canvas>
 
     <script type="text/javascript">
 		// Gets a handle to the element with id canvasOne.
@@ -45,7 +45,14 @@
     ctx.arc(50, 250, 25, 0, 2*Math.PI, false);
     ctx.fillStyle = "orange";
     ctx.fill();
-    ctx.stroke();
+
+
+    ctx.beginPath();
+        ctx.arc(150, 225, 30, 0, Math.PI, false);
+        ctx.fillStyle = "purple";
+        ctx.fill();
+        ctx.stroke();
+
 	  
 		
     </script>
