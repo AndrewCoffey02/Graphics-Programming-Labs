@@ -17,7 +17,7 @@
 
   <body>
 
-    <canvas id="canvasOne" width="300" height="500"></canvas>
+    <canvas id="canvasOne" width="300" height="1000"></canvas>
 
     <script type="text/javascript">
 		// Gets a handle to the element with id canvasOne.
@@ -29,32 +29,62 @@
 		// Create a filled rectangle 
 		ctx.fillRect(0,0,100,50);
 
+    //green rectangle
     ctx.fillStyle = "rgb(0, 255, 0)";
     ctx.fillRect(0, 100, 100, 50);
     
+    //blue trnsparent rectangle
     ctx.fillStyle = "rgba(0, 0, 255, 50%)";
     ctx.fillRect(0, 25, 100, 100);
 
+    //added circles with a fill colour
     ctx.beginPath();
-    ctx.arc(50, 180, 25, 0, 2*Math.PI, false);
-    ctx.fillStyle = "purple";
-    ctx.fill();
+        ctx.arc(50, 180, 25, 0, 2*Math.PI, false);
+        ctx.fillStyle = "purple";
+        ctx.fill();
 
     ctx.beginPath();
-    ctx.moveTo(75, 250);
-    ctx.arc(50, 250, 25, 0, 2*Math.PI, false);
-    ctx.fillStyle = "orange";
-    ctx.fill();
+        ctx.moveTo(75, 250);
+        ctx.arc(50, 250, 25, 0, 2*Math.PI, false);
+        ctx.fillStyle = "orange";
+        ctx.fill();
 
-
+      //added semi circle 
     ctx.beginPath();
         ctx.arc(150, 225, 30, 0, Math.PI, false);
         ctx.fillStyle = "purple";
         ctx.fill();
         ctx.stroke();
+    
 
-	  
-		
+    ctx.strokeRect(0, 308, 225, 300);
+    ctx.strokeRect(46.5, 308, 132, 54);
+    ctx.strokeRect(82.5, 308, 60, 18);
+    ctx.strokeRect(100.5, 300, 24, 8);
+    ctx.strokeRect(46.5, 608, 132, -54);
+    ctx.strokeRect(82.5, 608, 60, -18);
+      ctx.strokeRect(100.5, 608, 24, 8);
+      ctx.strokeRect(235, 428, 20, -60);
+      ctx.strokeRect(235, 443, 20, 30);
+      ctx.strokeRect(235, 488, 20, 60);
+
+    //create arcs for canvas 
+    //start path
+    ctx.beginPath();
+    ctx.arc(112.5, 340, 30, 3 * Math.PI / 4, Math.PI / 4, true);
+    ctx.moveTo(114.5, 344);
+    ctx.arc(112.5, 344, 2, 0, 2 * Math.PI, true);
+    ctx.moveTo(131, 554);
+    ctx.arc(112.5, 576, 30, 7 * Math.PI / 4, 5 * Math.PI / 4, true);
+    ctx.moveTo(112.5, 572);
+    ctx.arc(112.5, 572, 2, 0, 2 * Math.PI, true);
+    ctx.moveTo(0, 458);
+    ctx.lineTo(225, 458);
+    ctx.moveTo(112.5, 458);
+    ctx.arc(112.5, 458, 30, 0, 2 * Math.PI);
+    //end and begin stroke
+    ctx.stroke();
+        
     </script>
 
   </body>
