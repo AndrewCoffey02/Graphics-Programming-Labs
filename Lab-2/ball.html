@@ -28,6 +28,25 @@
       
       // The vertical location of the ball.
       var y = 10;
+
+      //class ball
+      class ball { 
+        constructor (X, Y, XSpeed, YSpeed, radius){
+        
+          this.x = X;
+          this.y = Y;
+          this.dx = XSpeed;
+          this.y = YSpeed;
+          this.r = radius;
+          
+          
+
+        }
+      }
+
+      
+
+
       // A function to repeat every time the animation loops.
       function repeatme() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -40,7 +59,7 @@
         y += 1;
         //if ball is 
         if(y == 145){
-          
+
           return;
         }
         
