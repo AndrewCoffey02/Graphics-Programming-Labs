@@ -18,50 +18,56 @@
 
   <body>
 
-    <canvas id="canvas-for-ball" style="border:3px solid black"></canvas>
+    <canvas id="canvas-for-ball" style="border:3px solid black" ></canvas>
 
     <script type="text/javascript">
       // Gets a handle to the element with id canvasOne.
       var canvas = document.getElementById("canvas-for-ball");
       // Get a 2D context for the canvas.
       var ctx = canvas.getContext("2d");
-      
-      // The vertical location of the ball.
-      var y = 10;
 
       //class ball
       class ball { 
         constructor (X, Y, XSpeed, YSpeed, radius){
-        
+
           this.x = X;
           this.y = Y;
           this.dx = XSpeed;
-          this.y = YSpeed;
+          this.dy = YSpeed;
           this.r = radius;
-          
-          
+        }
 
+        drawBall(){
+          
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+          return ctx.stroke();
+        }
+
+        moveBall(){
+
+            this.x += this.dx;
+            this.y += this.dy;
+            return this.x; 
+            return this.y;
         }
       }
 
-      
-
+      //object to define class ball
+      const bounceball = new ball(10, 10, 0, 1, 5);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         // Draw the ball (stroked, not filled).
-        ctx.beginPath();
-        ctx.arc(50, y, 3, 0, 2 * Math.PI);
-        ctx.stroke();
+        bounceball.drawBall();
+        bounceball.moveBall();
         
-        // Update the y location.
-        y += 1;
-        //if ball is 
-        if(y == 145){
-
+        //if ball is end, stop 
+        if(bounceball.y == 145){
           return;
         }
+        
         
         window.requestAnimationFrame(repeatme);
       }
