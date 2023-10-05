@@ -67,7 +67,7 @@
         bounceball.moveBall();
         
         //if ball is end, stop 
-        if(bounceball.y + bounceball.r >= canvas.height){
+        if(bounceball.y + bounceball.r >= canvas.height || bounceball.y - bounceball.r <= 0){
           bounceball.bounceV();
         }
         
