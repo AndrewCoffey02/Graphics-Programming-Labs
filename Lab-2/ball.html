@@ -51,10 +51,13 @@
             return this.x; 
             return this.y;
         }
+        bounceV(){
+          this.dy = this.dy*-1;
+        }
       }
 
       //object to define class ball
-      const bounceball = new ball(10, 10, 0, 1, 5);
+      const bounceball = new ball(10, 10, 0, 5, 5);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
@@ -64,8 +67,8 @@
         bounceball.moveBall();
         
         //if ball is end, stop 
-        if(bounceball.y == 145){
-          return;
+        if(bounceball.y + bounceball.r >= canvas.height){
+          bounceball.bounceV();
         }
         
         
