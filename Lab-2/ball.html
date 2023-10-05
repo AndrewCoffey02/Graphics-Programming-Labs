@@ -29,21 +29,21 @@
       //class ball
       class ball { 
         constructor (X, Y, XSpeed, YSpeed, radius){
-
+          //attributes
           this.x = X;
           this.y = Y;
           this.dx = XSpeed;
           this.dy = YSpeed;
           this.r = radius;
         }
-
+        //draws the ball
         drawBall(){
           
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
           return ctx.stroke();
         }
-
+        //moves ball
         moveBall(){
 
             this.x += this.dx;
@@ -51,26 +51,35 @@
             return this.x; 
             return this.y;
         }
+        //bounces horizontally
         bounceV(){
           this.dy = this.dy*-1;
+        }
+        //bounces vertically
+        bounceH(){
+          this.dx = this.dx*-1;
         }
       }
 
       //object to define class ball
-      const bounceball = new ball(10, 10, 0, 5, 5);
+      const bounceball = new ball(10, 10, 1, 5, 5);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // Draw the ball (stroked, not filled).
+
+        //methods from class
         bounceball.drawBall();
         bounceball.moveBall();
         
-        //if ball is end, stop 
+        //if ball is at edge of canvas, bounce  
         if(bounceball.y + bounceball.r >= canvas.height || bounceball.y - bounceball.r <= 0){
           bounceball.bounceV();
         }
-        
+
+        if(bounceball.x + bounceball.r >= canvas.width || bounceball.x - bounceball.r <= 0){
+          bounceball.bounceH();
+        }
         
         window.requestAnimationFrame(repeatme);
       }
