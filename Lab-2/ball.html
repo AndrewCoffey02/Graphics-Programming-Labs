@@ -1,6 +1,3 @@
-
-<!DOCTYPE html>
-
 <html>
 
   <head>
@@ -27,7 +24,7 @@
       var ctx = canvas.getContext("2d");
 
       //class ball
-      class ball { 
+      class Ball { 
         constructor (X, Y, XSpeed, YSpeed, radius){
           //attributes
           this.x = X;
@@ -53,16 +50,22 @@
         }
         //bounces horizontally
         bounceV(){
-          this.dy = this.dy*-1;
+
+          if(bounceball.y + bounceball.r >= canvas.height || bounceball.y - bounceball.r <= 0){
+            this.dy = this.dy*-1;
+          }
         }
         //bounces vertically
         bounceH(){
-          this.dx = this.dx*-1;
+          if(bounceball.x + bounceball.r >= canvas.width || bounceball.x - bounceball.r <= 0){
+            this.dx = this.dx*-1;
+          }
+          
         }
       }
 
       //object to define class ball
-      const bounceball = new ball(10, 10, 1, 5, 5);
+      const bounceball = new Ball(10, 10, 5, 5, 5);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
@@ -71,15 +74,8 @@
         //methods from class
         bounceball.drawBall();
         bounceball.moveBall();
-        
-        //if ball is at edge of canvas, bounce  
-        if(bounceball.y + bounceball.r >= canvas.height || bounceball.y - bounceball.r <= 0){
-          bounceball.bounceV();
-        }
-
-        if(bounceball.x + bounceball.r >= canvas.width || bounceball.x - bounceball.r <= 0){
-          bounceball.bounceH();
-        }
+        bounceball.bounceV();
+        bounceball.bounceH();
         
         window.requestAnimationFrame(repeatme);
       }
