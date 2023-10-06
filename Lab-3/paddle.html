@@ -1,0 +1,89 @@
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+      body {
+          background-color: white;
+      }
+    </style>
+    <h1>Andrew Coffey</h1>
+
+  </head>
+
+  <body>
+
+    <canvas id="canvas-for-ball" style="border:3px solid black" ></canvas>
+
+    <script type="text/javascript">
+      // Gets a handle to the element with id canvasOne.
+      var canvas = document.getElementById("canvas-for-ball");
+      // Get a 2D context for the canvas.
+      var ctx = canvas.getContext("2d");
+
+      //class ball
+      class Ball { 
+        constructor (X, Y, XSpeed, YSpeed, radius){
+          //attributes
+          this.x = X;
+          this.y = Y;
+          this.dx = XSpeed;
+          this.dy = YSpeed;
+          this.r = radius;
+        }
+        //draws the ball
+        drawBall(){
+          
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+          return ctx.stroke();
+        }
+        //moves ball
+        moveBall(){
+
+            this.x += this.dx;
+            this.y += this.dy;
+            return this.x; 
+            return this.y;
+        }
+        //bounces horizontally
+        bounceV(){
+
+          if(bounceball.y + bounceball.r >= canvas.height || bounceball.y - bounceball.r <= 0){
+            this.dy = this.dy*-1;
+          }
+        }
+        //bounces vertically
+        bounceH(){
+          if(bounceball.x + bounceball.r >= canvas.width || bounceball.x - bounceball.r <= 0){
+            this.dx = this.dx*-1;
+          }
+          
+        }
+      }
+
+      //object to define class ball
+      const bounceball = new Ball(10, 10, 5, 5, 5);
+
+      // A function to repeat every time the animation loops.
+      function repeatme() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        //methods from class
+        bounceball.drawBall();
+        bounceball.moveBall();
+        bounceball.bounceV();
+        bounceball.bounceH();
+        
+        window.requestAnimationFrame(repeatme);
+      }
+      
+      // Get the animation going.
+      repeatme();
+    </script>
+
+  </body>
+
+</html>
