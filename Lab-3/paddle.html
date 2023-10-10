@@ -24,58 +24,59 @@
       var ctx = canvas.getContext("2d");
 
       //class ball
-      class Ball { 
-        constructor (X, Y, XSpeed, YSpeed, radius){
+      class Paddle { 
+        constructor (X, Y, Width, Height, XSpeed, YSpeed){
           //attributes
           this.x = X;
           this.y = Y;
-          this.dx = XSpeed;
-          this.dy = YSpeed;
-          this.r = radius;
+          this.dx = Width;
+          this.dy = Height;
+          this.vx = XSpeed;
+          this.vy = YSpeed;
         }
         //draws the ball
-        drawBall(){
+        drawPaddle(){
           
           ctx.beginPath();
-          ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
-          return ctx.stroke();
+          ctx.fillRect(this.x, this.y, this.dx, this.dy);
+          ctx.stroke();
         }
         //moves ball
-        moveBall(){
+        movePaddle(){
 
-            this.x += this.dx;
-            this.y += this.dy;
+            this.x += this.vx;
+            this.y += this.vy;
             return this.x; 
             return this.y;
         }
         //bounces horizontally
         bounceV(){
 
-          if(bounceball.y + bounceball.r >= canvas.height || bounceball.y - bounceball.r <= 0){
-            this.dy = this.dy*-1;
+          if(this.y + this.dy >= canvas.height || this.y <= 0){
+            this.vy = this.vy*-1;
           }
         }
         //bounces vertically
         bounceH(){
-          if(bounceball.x + bounceball.r >= canvas.width || bounceball.x - bounceball.r <= 0){
-            this.dx = this.dx*-1;
+          if(this.x + this.dx >= canvas.width || this.x <= 0){
+            this.vx = this.vx*-1;
           }
           
         }
       }
 
       //object to define class ball
-      const bounceball = new Ball(10, 10, 5, 5, 5);
+      const Paddle1 = new Paddle(0, 0, 10, 30, 0, 2);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         //methods from class
-        bounceball.drawBall();
-        bounceball.moveBall();
-        bounceball.bounceV();
-        bounceball.bounceH();
+        Paddle1.drawPaddle();
+        Paddle1.movePaddle();
+        Paddle1.bounceV();
+        Paddle1.bounceH();
         
         window.requestAnimationFrame(repeatme);
       }
