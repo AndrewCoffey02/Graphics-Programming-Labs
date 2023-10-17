@@ -1,5 +1,7 @@
 <html>
 
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
   <head>
     <meta charset="UTF-8">
     <title>Canvas</title>
@@ -15,11 +17,11 @@
 
   <body>
 
-    <canvas id="canvas-for-ball" style="border:3px solid black" ></canvas>
+    <canvas id="paddle-class" style="border:3px solid black" ></canvas>
 
-    <script type="text/javascript">
+    <script type="text/javascript" >
       // Gets a handle to the element with id canvasOne.
-      var canvas = document.getElementById("canvas-for-ball");
+      var canvas = document.getElementById("paddle-class");
       // Get a 2D context for the canvas.
       var ctx = canvas.getContext("2d");
 
@@ -43,30 +45,20 @@
         }
         //moves ball
         movePaddle(){
-
-            this.x += this.vx;
-            this.y += this.vy;
-            return this.x; 
-            return this.y;
-        }
-        //bounces horizontally
-        bounceV(){
-
-          if(this.y + this.dy >= canvas.height || this.y <= 0){
-            this.vy = this.vy*-1;
-          }
-        }
-        //bounces vertically
-        bounceH(){
+            
           if(this.x + this.dx >= canvas.width || this.x <= 0){
             this.vx = this.vx*-1;
           }
           
+          if(this.y + this.dy >= canvas.height || this.y <= 0){
+            this.vy = this.vy*-1;
+          }
         }
-      }
 
+      }
+      
       //object to define class ball
-      const Paddle1 = new Paddle(0, 0, 10, 30, 0, 2);
+      const Paddle1 = new Paddle(0, 0, 10, 30, 0, 4);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
@@ -74,12 +66,29 @@
 
         //methods from class
         Paddle1.drawPaddle();
-        Paddle1.movePaddle();
-        Paddle1.bounceV();
-        Paddle1.bounceH();
-        
+
+
         window.requestAnimationFrame(repeatme);
       }
+
+		//keypresses with jQuery
+		$(document.body).on('keydown', function(e) {
+			console.log(e.which);
+			switch (e.which) {
+			// key code for down arrow
+			case 38:
+				console.log('up arrow key pressed!');
+        Paddle1.y+=Paddle1.vy*-1;
+        break;
+
+			// key code for up arrow
+			case 40:
+				console.log('down arrow key pressed!');
+            Paddle1.y+=Paddle1.vy;
+            break;
+          }
+			
+		});
       
       // Get the animation going.
       repeatme();
