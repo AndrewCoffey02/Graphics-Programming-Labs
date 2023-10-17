@@ -66,6 +66,7 @@
 
         //methods from class
         Paddle1.drawPaddle();
+        Paddle2.drawPaddle();
 
 
         window.requestAnimationFrame(repeatme);
@@ -89,6 +90,20 @@
           }
 			
 		});
+
+    canvas.addEventListener('click', (event) => {
+      const topPos = canvas.offsetTop + Paddle1.dy/2;
+      const y = event.clientY - topPos;
+
+      Paddle1.y = y;
+    });
+
+    canvas.addEventListener('mousemove', (event) => {
+      const topPos = canvas.offsetTop + Paddle1.dy/2;
+      const y = event.clientY - topPos;
+
+      Paddle1.y = y;
+    });
       
       // Get the animation going.
       repeatme();
