@@ -25,7 +25,7 @@
       // Get a 2D context for the canvas.
       var ctx = canvas.getContext("2d");
 
-      //class ball
+      //class paddle
       class Paddle { 
         constructor (X, Y, Width, Height, XSpeed, YSpeed){
           //attributes
@@ -36,28 +36,16 @@
           this.vx = XSpeed;
           this.vy = YSpeed;
         }
-        //draws the ball
+        //draws the paddle
         drawPaddle(){
           
           ctx.beginPath();
           ctx.fillRect(this.x, this.y, this.dx, this.dy);
           ctx.stroke();
         }
-        //moves ball
-        movePaddle(){
-            
-          if(this.x + this.dx >= canvas.width || this.x <= 0){
-            this.vx = this.vx*-1;
-          }
-          
-          if(this.y + this.dy >= canvas.height || this.y <= 0){
-            this.vy = this.vy*-1;
-          }
-        }
-
       }
       
-      //object to define class ball
+      //object to define class paddle
       const Paddle1 = new Paddle(0, 0, 10, 30, 0, 4);
       const Paddle2 = new Paddle(290, 0, 10, 30, 0, 4);
 
@@ -94,18 +82,22 @@
 			
 		});
 
+    //event to position object with mouseclick
     canvas.addEventListener('click', (event) => {
       const topPos = canvas.offsetTop + Paddle1.dy/2;
       const y = event.clientY - topPos;
 
+      //oject and mouse are y equal
       Paddle1.y = y;
       Paddle2.y = y;
     });
 
+    //event to follow mouse
     canvas.addEventListener('mousemove', (event) => {
       const topPos = canvas.offsetTop + Paddle1.dy/2;
       const y = event.clientY - topPos;
 
+      //oject and mouse are y equal
       Paddle1.y = y;
       Paddle2.y = y;
     });
