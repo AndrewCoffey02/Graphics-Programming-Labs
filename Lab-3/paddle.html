@@ -59,6 +59,7 @@
       
       //object to define class ball
       const Paddle1 = new Paddle(0, 0, 10, 30, 0, 4);
+      const Paddle2 = new Paddle(290, 0, 10, 30, 0, 4);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
@@ -80,12 +81,14 @@
 			case 38:
 				console.log('up arrow key pressed!');
         Paddle1.y+=Paddle1.vy*-1;
+        Paddle2.y+=Paddle2.vy*-1;
         break;
 
 			// key code for up arrow
 			case 40:
 				console.log('down arrow key pressed!');
             Paddle1.y+=Paddle1.vy;
+            Paddle2.y+=Paddle2.vy;
             break;
           }
 			
@@ -96,6 +99,7 @@
       const y = event.clientY - topPos;
 
       Paddle1.y = y;
+      Paddle2.y = y;
     });
 
     canvas.addEventListener('mousemove', (event) => {
@@ -103,6 +107,7 @@
       const y = event.clientY - topPos;
 
       Paddle1.y = y;
+      Paddle2.y = y;
     });
       
       // Get the animation going.
