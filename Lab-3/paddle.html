@@ -44,10 +44,47 @@
           ctx.stroke();
         }
       }
+      class Ball { 
+        constructor (X, Y, XSpeed, YSpeed, radius){
+          //attributes
+          this.x = X;
+          this.y = Y;
+          this.dx = XSpeed;
+          this.dy = YSpeed;
+          this.r = radius;
+        }
+        //draws the ball
+        drawBall(){
+          
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+          ctx.fillstyle = "black";
+          return ctx.stroke();
+        }
+        //moves ball
+        moveBall(){
+
+            this.x += this.dx;
+            this.y += this.dy;
+            
+            if(this.y + this.r >= canvas.height || this.y - this.r <= 0){
+              this.dy = this.dy*-1;
+            }
+
+            if(this.x + this.r >= canvas.width || this.x - this.r <= 0){
+            this.dx = this.dx*-1;
+            }
+
+            return this.x;
+            return this.y;
+          
+        }
+      }
       
       //object to define class paddle
       const Paddle1 = new Paddle(0, 0, 10, 30, 0, 4);
       const Paddle2 = new Paddle(290, 0, 10, 30, 0, 4);
+      const Ball1 = new Ball(5, 5, 2, 2, 5);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
@@ -56,6 +93,8 @@
         //methods from class
         Paddle1.drawPaddle();
         Paddle2.drawPaddle();
+        Ball1.drawBall();
+        Ball1.moveBall();
 
 
         window.requestAnimationFrame(repeatme);
