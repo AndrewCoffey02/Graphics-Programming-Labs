@@ -10,11 +10,13 @@
   </style>
   <h1>Andrew Coffey</h1>
 
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
 </head>
 <body>
   <canvas id="paddle-class" width="400" height="300" style="border:5px solid black"></canvas>
 
-  <script type="text/javascript">
+  <script type="text/javascript" >
     // Gets a handle to the element with id canvasOne.
     var canvas = document.getElementById("paddle-class");
     // Get a 2D context for the canvas.
@@ -129,7 +131,7 @@
 
     //object to define class paddle
     const Paddle1 = new Paddle(15, 15, 15, 2);
-    const Ball1 = new MatchBall(30, 30, 3, 3, 15, 2);
+    const Ball1 = new MatchBall(30, 30, 0, 0, 15, 2);
 
     // A function to repeat every time the animation loops.
     function repeatme() {
@@ -151,7 +153,43 @@
       window.requestAnimationFrame(repeatme);
     }
 
-    
+    //jquery for keypress
+    $(document.body).on('keydown', function(e) {
+			console.log(e.which);
+			switch (e.which) {
+			// key code for left arrow
+			case 37:
+				console.log('left arrow key pressed!');
+        if(Ball1.dx >= 1){
+          Ball1.dx--;
+        }
+				break;
+
+			// key code for right arrow
+			case 39:
+				console.log('right arrow key pressed!');
+        if(Ball1.dx >= -1){
+          Ball1.dx++;
+        }
+				break;
+      //keycode for up arrow
+      case 38:
+        console.log('up arrow key pressed!');
+        if(Ball1.dy >= 1){
+          Ball1.dy--;
+        }
+				break;
+      //keycode for down arrow
+      case 40:
+        console.log('down arrow key pressed!');
+        if(Ball1.dy >= -1){
+          Ball1.dy++;
+        }
+				break;
+			}
+      
+
+		});
 
     // Get the animation going.
     repeatme();
