@@ -17,7 +17,7 @@
 
   <body>
 
-    <canvas id="paddle-class" width="300" height="300" style="border:3px solid black" ></canvas>
+    <canvas id="paddle-class" width="300" height="300" style="border:5px solid black" ></canvas>
 
     <script type="text/javascript" >
       // Gets a handle to the element with id canvasOne.
@@ -53,7 +53,7 @@
         
       }
       
-      class Ball { 
+      class MatchBall { 
         constructor (X, Y, XSpeed, YSpeed, radius){
           //attributes
           this.x = X;
@@ -66,9 +66,11 @@
         drawBall(){
           
           ctx.beginPath();
+          
           ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
-          ctx.fillstyle = "black";
-          return ctx.stroke();
+          ctx.lineWidth = "2";
+          ctx.fillStyle = "red";
+          ctx.fill();
         }
         //moves ball
         moveBall(){
@@ -89,10 +91,27 @@
           
         }
       }
+
+       function collision(X1, Y1, X2, Y2, Distance) {
+        this.x1 = X1;
+        this.y1 = Y1;
+        this.x2 = X2;
+        this.y2 = Y2; 
+        this.d = Distance;  
+
+        var a = y2 - y1;
+        var b = x2 - x1;
+
+        if(Math.sqrt(a * a + b * b) <= d){
+          console.log("Collision detected!");
+        }
+
+
+      }
       
       //object to define class paddle
-      const Paddle1 = new Paddle(10, 10, 10, 2);
-      const Ball1 = new Ball(50, 25, 2, 2, 10);
+      const Paddle1 = new Paddle(15, 15, 15, 2);
+      const Ball1 = new MatchBall(50, 25, 2, 2, 10);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
@@ -103,6 +122,10 @@
         Paddle1.movePaddle();
         Ball1.drawBall();
         Ball1.moveBall();
+
+        var d = Paddle1.r + Ball1.r;
+
+        collision(Paddle1.x, Paddle1.y, Ball1.x, Ball1.y, d);
 
 
         window.requestAnimationFrame(repeatme);
