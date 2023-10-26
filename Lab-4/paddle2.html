@@ -31,7 +31,11 @@
         this.x = X;
         this.y = Y;
         this.r = radius;
-        this.vy = YSpeed;
+        this.v = {
+          x: 0,
+          y: YSpeed
+        };
+        this.mass = 1;
       }
       //draws the paddle
       drawPaddle() {
@@ -44,10 +48,10 @@
       movePaddle() {
 
         //increments by user input
-        this.y += this.vy;
+        this.y += this.v.y;
 
         if (this.y + this.r > canvas.height || this.y - this.r < 0) {
-          this.vy = this.vy * -1;
+          this.v.y = this.v.y * -1;
         }
         return this.y;
       }
@@ -56,15 +60,18 @@
     //class for ball
     class MatchBall {
 
-      constructor(X, Y, XSpeed, YSpeed, radius, Spin) {
+      constructor(X, Y, XVelocity, YVelocity, radius, Spin) {
 
         //attributes
         this.x = X;
         this.y = Y;
-        this.dx = XSpeed;
-        this.dy = YSpeed;
+        this.v = {
+          x: XVelocity,
+          y: YVelocity
+        }
         this.r = radius;
         this.s = Spin;
+        this.mass = 1;
       }
       //draws the ball
       drawBall() {
@@ -94,17 +101,17 @@
       moveBall() {
 
         //increments by user input
-        this.x += this.dx;
-        this.y += this.dy;
+        this.x += this.v.x;
+        this.y += this.v.y;
         R += this.s;
 
         //Y borders
         if (this.y + this.r >= canvas.height || this.y - this.r <= 0) {
-          this.dy = this.dy * -1;
+          this.v.y = this.v.y * -1;
         }
         //X borders
         if (this.x + this.r >= canvas.width || this.x - this.r <= 0) {
-          this.dx = this.dx * -1;
+          this.v.x = this.v.x * -1;
         }
 
         //return variables
@@ -112,26 +119,59 @@
         return this.y;
       }
     }
-    //adds collision
-    function collision(X1, Y1, X2, Y2, Distance) {
-      this.x1 = X1;
-      this.y1 = Y1;
-      this.x2 = X2;
-      this.y2 = Y2;
-      this.d = Distance;
 
-      //to determine x and y distance
-      var a = y2 - y1;
-      var b = x2 - x1;
-      //terminal message t0 indicate collision
-      if (Math.hypot(a, b) <= d) {
-        console.log("Collision detected!");
+    //rotates coordinates for velocities
+    function rotate(velocity, angle) {
+      return {
+        x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle), 
+        y: velocity.x * Math.cos(angle) + velocity.y * Math.sin(angle)
+      };
+    }
+
+    function Rebound(Ball, Paddle){
+      //velocity difference
+      const xVelocityDiff = Ball.v.x - Paddle.v.x;
+      const yVelocityDiff = Ball.v.y - Paddle.v.y;
+      //distance
+      var a = Paddle.y - Ball.y;
+      var b = Paddle.x - Ball.x;
+
+      //prevent overlap of objects
+      if(xVelocityDiff * b + yVelocityDiff + a >= 0){
+
+        //angle of collision
+        const angle = -Math.atan2(Paddle.y - Ball.y, Paddle.x - Ball.x);
+
+        //mass of objects
+        const m1 = Ball.mass;
+        const m2 = Paddle.mass;
+
+        //velocity before equation
+        u1 = rotate(Ball.v, angle);
+        u2 = rotate(Paddle.v, angle);
+
+        //elastic collision formula
+        const v1 = { x: u1.x * (m1 - m2) / (m1 + m2) + u2.x  * 2 * m2 / (m1 + m2),  y: u1.y };
+        const v2 = { x: u2.x * (m1 - m2) / (m1 + m2) + u1.x  * 2 * m2 / (m1 + m2),  y: u2.y };
+
+        //velocity after equation and direction
+        const Vfinal1 = rotate(v1, angle);
+        const Vfinal2 = rotate(v2, angle);
+
+        //define as new velocity
+        Ball.v.x = Vfinal1.x;
+        Ball.v.y = Vfinal1.y;
+
+        Paddle.v.x = Vfinal2.x;
+        Paddle.v.y = Vfinal2.y;
+
+
       }
     }
 
     //object to define class paddle
-    const Paddle1 = new Paddle(15, 15, 15, 2);
-    const Ball1 = new MatchBall(30, 30, 0, 0, 15, 2);
+    const Paddle1 = new Paddle(40, 40, 40, 2);
+    const Ball1 = new MatchBall(150, 150, 2, 2, 40, 2);
 
     // A function to repeat every time the animation loops.
     function repeatme() {
@@ -146,8 +186,15 @@
       //variable to define distance betweeen ball and paddle
       var d = Paddle1.r + Ball1.r;
 
-      //collision function
-      collision(Paddle1.x, Paddle1.y, Ball1.x, Ball1.y, d);
+      var a = Paddle1.y - Ball1.y;
+      var b = Paddle1.x - Ball1.x;
+
+      //terminal message t0 indicate collision
+      if (Math.hypot(a, b) <= d) {
+        console.log("Collision Detected");
+        Rebound(Ball1, Paddle1);
+
+      }
 
 
       window.requestAnimationFrame(repeatme);
@@ -160,30 +207,30 @@
 			// key code for left arrow
 			case 37:
 				console.log('left arrow key pressed!');
-        if(Ball1.dx >= 1){
-          Ball1.dx--;
+        if(Ball1.v.x >= 1){
+          Ball1.v.x--;
         }
 				break;
 
 			// key code for right arrow
 			case 39:
 				console.log('right arrow key pressed!');
-        if(Ball1.dx >= -1){
-          Ball1.dx++;
+        if(Ball1.v.x >= -1){
+          Ball1.v.x++;
         }
 				break;
       //keycode for up arrow
       case 38:
         console.log('up arrow key pressed!');
-        if(Ball1.dy >= 1){
-          Ball1.dy--;
+        if(Ball1.v.y >= -1){
+          Ball1.v.y++;
         }
 				break;
       //keycode for down arrow
       case 40:
         console.log('down arrow key pressed!');
-        if(Ball1.dy >= -1){
-          Ball1.dy++;
+        if(Ball1.v.y >= 1){
+          Ball1.dy__;
         }
 				break;
 			}
