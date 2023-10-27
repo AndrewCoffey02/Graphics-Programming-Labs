@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Canvas</title>
@@ -13,10 +14,11 @@
   <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
 </head>
+
 <body>
   <canvas id="paddle-class" width="400" height="300" style="border:5px solid black"></canvas>
 
-  <script type="text/javascript" >
+  <script type="text/javascript">
     // Gets a handle to the element with id canvasOne.
     var canvas = document.getElementById("paddle-class");
     // Get a 2D context for the canvas.
@@ -73,6 +75,8 @@
         this.s = Spin;
         this.mass = 1;
       }
+
+
       //draws the ball
       drawBall() {
 
@@ -123,50 +127,38 @@
     //rotates coordinates for velocities
     function rotate(velocity, angle) {
       return {
-        x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle), 
+        x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
         y: velocity.x * Math.cos(angle) + velocity.y * Math.sin(angle)
       };
     }
 
-    function Rebound(Ball, Paddle){
-      //velocity difference
-      const xVelocityDiff = Ball.v.x - Paddle.v.x;
-      const yVelocityDiff = Ball.v.y - Paddle.v.y;
-      //distance
-      var a = Paddle.y - Ball.y;
-      var b = Paddle.x - Ball.x;
+    function Rebound(Ball, Paddle) {
 
-      //prevent overlap of objects
-      if(xVelocityDiff * b + yVelocityDiff + a >= 0){
+      //angle of collision
+      const angle = Math.atan2(Paddle.y - Ball.y, Paddle.x - Ball.x);
 
-        //angle of collision
-        const angle = -Math.atan2(Paddle.y - Ball.y, Paddle.x - Ball.x);
+      //mass of objects
+      const m1 = Paddle.mass;
+      const m2 = Ball.mass;
 
-        //mass of objects
-        const m1 = Ball.mass;
-        const m2 = Paddle.mass;
+      //velocity before equation
+      u1 = rotate(Ball.v, angle);
+      u2 = rotate(Paddle.v, angle);
 
-        //velocity before equation
-        u1 = rotate(Ball.v, angle);
-        u2 = rotate(Paddle.v, angle);
+      //elastic collision formula
+      const v1 = { x: u1.x * (m1 - m2) + u2.x * 2 * m2 / (m1 + m2), y: u1.y };
+      const v2 = { x: u2.x * (m1 - m2) + u1.x * 2 * m2 / (m1 + m2), y: u2.y };
 
-        //elastic collision formula
-        const v1 = { x: u1.x * (m1 - m2) / (m1 + m2) + u2.x  * 2 * m2 / (m1 + m2),  y: u1.y };
-        const v2 = { x: u2.x * (m1 - m2) / (m1 + m2) + u1.x  * 2 * m2 / (m1 + m2),  y: u2.y };
+      //velocity after equation and direction
+      const Vfinal1 =  rotate(v1, angle);
+      const Vfinal2 =  rotate(v2, angle);
 
-        //velocity after equation and direction
-        const Vfinal1 = rotate(v1, angle);
-        const Vfinal2 = rotate(v2, angle);
+      //define as new velocity
+      Ball.v.x = Math.cos(angle)*Vfinal1.x+Math.cos(angle+Math.PI/2)*Vfinal1.y;
+      Ball.v.y = Math.sin(angle)*Vfinal1.x+Math.sin(angle+Math.PI/2)*Vfinal1.y;
 
-        //define as new velocity
-        Ball.v.x = Vfinal1.x;
-        Ball.v.y = Vfinal1.y;
-
-        Paddle.v.x = Vfinal2.x;
-        Paddle.v.y = Vfinal2.y;
-
-
-      }
+      Paddle.v.x = Math.cos(angle)*Vfinal2.x+Math.cos(angle+Math.PI/2)*Vfinal2.y;
+      Paddle.v.y = Math.sin(angle)*Vfinal2.x+Math.sin(angle+Math.PI/2)*Vfinal2.y;
     }
 
     //object to define class paddle
@@ -193,50 +185,50 @@
       if (Math.hypot(a, b) <= d) {
         console.log("Collision Detected");
         Rebound(Ball1, Paddle1);
+        // ctx.fillText("Collision Detection", canas.Width/2, canvas.height/2);
 
       }
-
 
       window.requestAnimationFrame(repeatme);
     }
 
     //jquery for keypress
-    $(document.body).on('keydown', function(e) {
-			console.log(e.which);
-			switch (e.which) {
-			// key code for left arrow
-			case 37:
-				console.log('left arrow key pressed!');
-        if(Ball1.v.x >= 1){
-          Ball1.v.x--;
-        }
-				break;
+    $(document.body).on('keydown', function (e) {
+      console.log(e.which);
+      switch (e.which) {
+        // key code for left arrow
+        case 37:
+          console.log('left arrow key pressed!');
+          if (Ball1.v.x >= 1) {
+            Ball1.v.x--;
+          }
+          break;
 
-			// key code for right arrow
-			case 39:
-				console.log('right arrow key pressed!');
-        if(Ball1.v.x >= -1){
-          Ball1.v.x++;
-        }
-				break;
-      //keycode for up arrow
-      case 38:
-        console.log('up arrow key pressed!');
-        if(Ball1.v.y >= -1){
-          Ball1.v.y++;
-        }
-				break;
-      //keycode for down arrow
-      case 40:
-        console.log('down arrow key pressed!');
-        if(Ball1.v.y >= 1){
-          Ball1.dy__;
-        }
-				break;
-			}
-      
+        // key code for right arrow
+        case 39:
+          console.log('right arrow key pressed!');
+          if (Ball1.v.x >= -1) {
+            Ball1.v.x++;
+          }
+          break;
+        //keycode for up arrow
+        case 38:
+          console.log('up arrow key pressed!');
+          if (Ball1.v.y >= -1) {
+            Ball1.v.y++;
+          }
+          break;
+        //keycode for down arrow
+        case 40:
+          console.log('down arrow key pressed!');
+          if (Ball1.v.y >= 1) {
+            Ball1.dy__;
+          }
+          break;
+      }
 
-		});
+
+    });
 
     // Get the animation going.
     repeatme();
