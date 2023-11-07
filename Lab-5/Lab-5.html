@@ -22,7 +22,7 @@
         document.body.appendChild(renderer.domElement);
         //created tetrahedron
         const geometry = new THREE.TetrahedronGeometry(1, 50);
-        const material = new THREE.MeshBasicMaterial({ color: "red", wireframe : false });
+        const material = new THREE.MeshLambertMaterial({ color: "red", wireframe : false });
         const tetra = new THREE.Mesh(geometry, material);
         scene.add(tetra);
         //spotlight
