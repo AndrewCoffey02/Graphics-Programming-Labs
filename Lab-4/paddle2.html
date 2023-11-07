@@ -126,39 +126,53 @@
 
     //rotates coordinates for velocities
     function rotate(velocity, angle) {
-      return {
+      const rotatedVelocities = {
         x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
-        y: velocity.x * Math.cos(angle) + velocity.y * Math.sin(angle)
+        y: velocity.x * Math.sin(angle) + velocity.y * Math.cos(angle)
       };
+      return rotatedVelocities;
     }
 
     function Rebound(Ball, Paddle) {
 
-      //angle of collision
-      const angle = Math.atan2(Paddle.y - Ball.y, Paddle.x - Ball.x);
+      const xVel = Ball.v.x - Paddle.v.x;
+      const YVel = Ball.v.y - Paddle.v.y;
 
-      //mass of objects
-      const m1 = Paddle.mass;
-      const m2 = Ball.mass;
+      const XDis = Paddle.x - Ball.x;
+      const YDis = Paddle.y - Ball.y;
 
-      //velocity before equation
-      u1 = rotate(Ball.v, angle);
-      u2 = rotate(Paddle.v, angle);
+      if (xVel * XDis + YVel * YDis >= 0) {
 
-      //elastic collision formula
-      const v1 = { x: u1.x * (m1 - m2) + u2.x * 2 * m2 / (m1 + m2), y: u1.y };
-      const v2 = { x: u2.x * (m1 - m2) + u1.x * 2 * m2 / (m1 + m2), y: u2.y };
+        //angle of collision
+        const angle = -Math.atan2(Paddle.y - Ball.y, Paddle.x - Ball.x);
 
-      //velocity after equation and direction
-      const Vfinal1 =  rotate(v1, angle);
-      const Vfinal2 =  rotate(v2, angle);
+        //mass of objects
+        const m1 = Ball.mass;
+        const m2 = Paddle.mass;
 
-      //define as new velocity
-      Ball.v.x = Math.cos(angle)*Vfinal1.x+Math.cos(angle+Math.PI/2)*Vfinal1.y;
-      Ball.v.y = Math.sin(angle)*Vfinal1.x+Math.sin(angle+Math.PI/2)*Vfinal1.y;
+        //velocity before equation
+        const u1 = rotate(Ball.v, angle);
+        const u2 = rotate(Paddle.v, angle);
 
-      Paddle.v.x = Math.cos(angle)*Vfinal2.x+Math.cos(angle+Math.PI/2)*Vfinal2.y;
-      Paddle.v.y = Math.sin(angle)*Vfinal2.x+Math.sin(angle+Math.PI/2)*Vfinal2.y;
+        //elastic collision formula
+        const v1 = { 
+          x: u1.x * (m1 - m2) / (m1 + m2) + 2*(u2.x * m2) / (m1 + m2), 
+          y: u1.y };
+        const v2 = { 
+          x: u2.x * (m1 - m2) / (m1 + m2) + 2*(u1.x * m2) / (m1 + m2), 
+          y: u2.y };
+
+        //velocity after equation and direction
+        const Vfinal1 = rotate(v1, -angle);
+        const Vfinal2 = rotate(v2, -angle);
+
+        //define as new velocity
+        Ball.v.x = Vfinal1.x;
+        Ball.v.y = Vfinal1.y;
+
+        // Paddle.v.x = Vfinal2.x;
+        // Paddle.v.y = Vfinal2.y;
+      }
     }
 
     //object to define class paddle
@@ -222,7 +236,7 @@
         case 40:
           console.log('down arrow key pressed!');
           if (Ball1.v.y >= 1) {
-            Ball1.dy__;
+            Ball1.dy--;
           }
           break;
       }
