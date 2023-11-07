@@ -21,28 +21,26 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         //created tetrahedron
-        const geometry = new THREE.TetrahedronGeometry(3, 50);
-        const material = new THREE.MeshBasicMaterial({ color: "red", wireframe : true });
+        const geometry = new THREE.TetrahedronGeometry(1, 50);
+        const material = new THREE.MeshBasicMaterial({ color: "red", wireframe : false });
         const tetra = new THREE.Mesh(geometry, material);
         scene.add(tetra);
+        //spotlight
+        const spotLight = new THREE.SpotLight(0xffffff);
+        spotLight.position.set(1, 0.5, 1);
+        scene.add(spotLight);
 
-        
-
-
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
-        animate();
-
+        // repeat me function
         var repeatMe = function () {
-            renderer.render(scene, camera);
             requestAnimationFrame(repeatMe);
+            //render scene
+            renderer.render(scene, camera);
+            //rotate tetrahedron
             tetra.rotation.x += 0.01;
             tetra.rotation.y += 0.01;
             camera.position.z = 5;
         };
-
+        //repeat the animation
         repeatMe();
 
     </script>
