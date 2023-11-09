@@ -21,14 +21,44 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         //created tetrahedron
-        const geometry = new THREE.TetrahedronGeometry(1, 50);
+        const geometry = new THREE.TetrahedronGeometry(1, 30);
         const material = new THREE.MeshLambertMaterial({ color: "red", wireframe : false });
         const tetra = new THREE.Mesh(geometry, material);
-        scene.add(tetra);
         //spotlight
         const spotLight = new THREE.SpotLight(0xffffff);
         spotLight.position.set(1, 0.5, 1);
         scene.add(spotLight);
+
+        
+
+        class Tetra {
+            constructor(){
+                this.counter = 0;
+            }
+            addTetra() {
+                
+                scene.add(tetra);
+            }
+
+            moveTetra() {
+                tetra.rotation.x += 0.01;
+                tetra.rotation.y += 0.01;
+
+                if(this.counter <= 100){
+                    tetra.position.x += 0.02;
+                    this.counter++;
+                } 
+                if(this.counter > 100){
+                    tetra.position.x -= 0.02;
+                    this.counter++;
+                }
+                if(this.counter > 300){
+                    this.counter = -100;
+                }
+            }
+        }
+
+        const tetra1 = new Tetra();
 
         // repeat me function
         var repeatMe = function () {
@@ -36,8 +66,9 @@
             //render scene
             renderer.render(scene, camera);
             //rotate tetrahedron
-            tetra.rotation.x += 0.01;
-            tetra.rotation.y += 0.01;
+            tetra1.addTetra();
+            tetra1.moveTetra();
+
             camera.position.z = 5;
         };
         //repeat the animation
