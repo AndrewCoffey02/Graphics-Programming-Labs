@@ -3,6 +3,7 @@
 
 <head>
     <!-- Three.js API  -->
+    <p> Andrew Coffey</p>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js"></script>
     <meta charset="UTF-8">
     <title></title>
@@ -25,7 +26,7 @@
 
         //created tetrahedron
         const geometry = new THREE.TetrahedronGeometry(1, 10);
-        const material = new THREE.MeshLambertMaterial({ color: "red" })
+        const material = new THREE.MeshLambertMaterial({ color: "rgb(255, 0, 0)", wireframe: true });
         const tetra = new THREE.Mesh(geometry, material);
         tetra.castShadow = true;
 
@@ -51,16 +52,22 @@
         plane.rotation.x = 90;
         plane.position.y = -4;
 
+        const helper = new THREE.SpotLightHelper( spotLight );
+        scene.add( helper );
+
+        
+
         //tetra class
         class Tetra {
             constructor(){
-                this.x;
-                this.y;
                 this.dx = 0.01;
                 this.dy = 0.01;
                 this.dz = 0.01;
                 this.g = -0.005;
                 this.dg = 0;
+                this.rf = 0.5;
+                this.gf = 0.5;
+                this.bf = 0.5;
             }
             //add a tetra
             addTetra() {
@@ -73,14 +80,15 @@
                 tetra.rotation.y += 0.01;
 
                 this.dg += this.g;
-
+                //incrementing positions
                 tetra.position.x += this.dx;
                 tetra.position.y += this.dy + this.dg;
                 tetra.position.z += this.dz;
-
+                //if tetera on edge, change direction
                 if(tetra.position.x > 2 || tetra.position.x < -2){
                     this.dx = this.dx*-1;
                 }
+                //tetra gravity method
                 if( tetra.position.y < -2){
                     this.dy = this.dy*-1;
                     this.dg = this.dg*-1;
@@ -91,6 +99,25 @@
                     this.dz = this.dz*-1;
                 }
             }
+            //cycle between colors 
+            colorCycle() {
+            //incrementing rgb
+            this.gf += 0.005;
+            this.bf += 0.003;
+            this.rf += 0.002;
+            if(this.rf >= 1){
+                this.rf = 0;
+            }
+            if(this.gf >= 1){
+                this.gf = 0;
+            }
+            if(this.bf >= 1){
+                this.bf = 0; 
+            }
+
+            //set color every frame
+            tetra.material.color.setRGB(this.rf, this.gf, this.bf);
+        }
         }
 
         //tetra object
@@ -104,6 +131,7 @@
             //methods 
             tetra1.addTetra();
             tetra1.moveTetra();
+            tetra1.colorCycle();
             
             //camera placement
             camera.position.z = 10;
