@@ -23,7 +23,7 @@ public class CubeMovement : MonoBehaviour
             Debug.Log("Space key was pressed.");
             transform.Translate(Vector3.up);
         }
-        
+
         //sphere movement across x ad z axis
         if (Input.GetKey(KeyCode.UpArrow))
         {
