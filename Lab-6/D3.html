@@ -5,21 +5,58 @@
         <meta charset="UTF-8">
 
         <style type="text/css"></style>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://d3js.org/d3.v4.js"></script>
     </head>
     <body>
         <h1>Andrew Coffey</h1>
+        <div id="container"></div>
         <script type="text/javascript">
 
-            $.getJSON("https://pkgstore.datahub.io/core/co2-ppm/co2-mm-mlo_json/data/aed7eb0d19cbcd90790525d40728b0a8/co2-mm-mlo_json.json", function(data) { 
+            d3.json("https://pkgstore.datahub.io/core/co2-ppm/co2-mm-mlo_json/data/aed7eb0d19cbcd90790525d40728b0a8/co2-mm-mlo_json.json", function(data) {
                 console.log(data);
                 plotC02Data(data);
-                
-             });
+            });
+            
 
-             function plotC02Data() {
+            function plotC02Data(data) {
                 
-             }
+                const width = 640;
+                const height = 400;
+                const marginTop = 20;
+                const marginRight = 20;
+                const marginBottom = 30;
+                const marginLeft = 40;
+
+                const parseDate = d3.timeParse("%Y-%m-%d");
+
+                // Declare the x (horizontal position) scale.
+                const x = d3.scaleTime()
+                    .domain(d3.extent(data, function(d) { return parseDate( d["Date"]); }))
+                    .range([marginLeft, width - marginRight]);
+
+                // Declare the y (vertical position) scale.
+                const y = d3.scaleLinear()
+                    .domain(d3.extent(data, function(d) { return d["Interpolated"] }))
+                    .range([height - marginBottom, marginTop]);
+
+                const svg = d3.create("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                // Add the x-axis.
+                svg.append("g")
+                    .attr("transform", `translate(0,${height - marginBottom})`)
+                    .call(d3.axisBottom(x).ticks(height / 40));2
+
+                // Add the y-axis.
+                svg.append("g")
+                    .attr("transform", `translate(${marginLeft},0)`)
+                    .call(d3.axisLeft(y).ticks(height / 40));
+
+                // Return the SVG element.
+                container.append(svg.node());
+            }
+                
         </script>
     </body>
 </html>
