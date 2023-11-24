@@ -20,18 +20,19 @@
 
             function plotC02Data(data) {
                 
-                const width = 1000;
-                const height = 400;
+                const width = 1100;
+                const height = 600;
                 const marginTop = 20;
                 const marginRight = 20;
-                const marginBottom = 30;
-                const marginLeft = 40;
+                const marginBottom = 60;
+                const marginLeft = 70;
 
                 const parseDate = d3.timeParse("%Y-%m-%d");
+                const utcFormat = d3.utcFormat("%d %B, %Y");
 
                 // Declare the x (horizontal position) scale.
                 const x = d3.scaleTime()
-                    .domain(d3.extent(data, function(d) { return parseDate( d["Date"]); }))
+                    .domain(d3.extent(data, function(d) { return parseDate( d["Date"]) }))
                     .range([marginLeft, width - marginRight]);
 
                 // Declare the y (vertical position) scale.
@@ -55,13 +56,34 @@
                 // Add the x-axis.
                 svg.append("g")
                     .attr("transform", `translate(0,${height - marginBottom})`)
-                    .call(d3.axisBottom(x).ticks(height / 40))
-                    .attr(d3.axisBottom(x));
+                    .call(d3.axisBottom(x).ticks(6))
+                    .style("font-size", "16px");
 
                 // Add the y-axis.
                 svg.append("g")
                     .attr("transform", `translate(${marginLeft},0)`)
-                    .call(d3.axisLeft(y).ticks(height / 40));
+                    .call(d3.axisLeft(y).ticks(6))
+                    .style("font-size", "16px");
+
+                svg.append("text")
+                .attr("transform", "translate("+(width/2)+" ,"+(height-10)+")")
+                .style("text-anchor", "middle")
+                    .attr("font-size", "20px")
+                    .text("Date");
+
+                svg.append("text")
+                .attr("transform", "rotate(-90)") 
+                .style("text-anchor", "middle")
+                .attr("x", -(height/2))
+                .attr("y", 15)
+                .attr("font-size", "20px")
+                .text("C02 Emissions");
+
+                svg.append("text")
+                .attr("transform", "translate("+(width/2)+" ,"+marginTop+")")
+                .style("text-anchor", "middle")
+                .attr("font-size", "25px")
+                .text("Trends in Atmospheric Carbon Dioxide");
 
                 svg.append("path")
                     .attr("fill", "none")
