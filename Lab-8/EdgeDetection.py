@@ -10,17 +10,18 @@ cv2.waitKey(0)
 # grayscale
 gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+# blurred images
 blur3 = cv2.GaussianBlur(img, (3,3), 0)
 blur13 = cv2.GaussianBlur(img,(13,13), 0)
 
-# image dimensions and output
-plt.subplot(2, 2, 1),plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB), cmap = 'gray')
+# image output
+plt.subplot(2, 2, 1),plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB), cmap = 'gray') # main image
 plt.title('Original'), plt.xticks([]), plt.yticks([])
-plt.subplot(2, 2, 2),plt.imshow(gray_image, cmap = 'gray')
+plt.subplot(2, 2, 2),plt.imshow(gray_image, cmap = 'gray') # grayscale image
 plt.title('Grayscale'), plt.xticks([]), plt.yticks([])
-plt.subplot(2, 2, 3),plt.imshow(cv2.cvtColor(blur3, cv2.COLOR_BGR2RGB), cmap = 'gray')
+plt.subplot(2, 2, 3),plt.imshow(cv2.cvtColor(blur3, cv2.COLOR_BGR2RGB), cmap = 'gray') # blurred image 3x
 plt.title('3x3 Blur'), plt.xticks([]), plt.yticks([])
-plt.subplot(2, 2, 4),plt.imshow(cv2.cvtColor(blur13, cv2.COLOR_BGR2RGB), cmap = 'gray') 
+plt.subplot(2, 2, 4),plt.imshow(cv2.cvtColor(blur13, cv2.COLOR_BGR2RGB), cmap = 'gray') # blurred image 13x
 plt.title('13x13 Blur'), plt.xticks([]), plt.yticks([])
 plt.show()
 
