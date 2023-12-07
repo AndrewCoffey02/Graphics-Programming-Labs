@@ -15,7 +15,7 @@ public class InstanciateCube : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space)){
+        if(Input.GetKey(KeyCode.Space)){
 
             Instantiate(Cube, new Vector3(-2, 1, 0), Quaternion.identity);
         }
