@@ -37,19 +37,21 @@ sobelx = cv2.Sobel(img_blur,ddepth=cv2.CV_64F,dx=1,dy=0,ksize=5) # x direction f
 sobely = cv2.Sobel(img_blur,ddepth=cv2.CV_64F,dx=0,dy=1,ksize=5) # y direction for sobel detection
 sobelxy = cv2.Sobel(img_blur,ddepth=cv2.CV_64F,dx=1,dy=1,ksize=5) # x and y direction for sobel detection
 
-
+# canny detection
+canny = cv2.edges = cv2.Canny(img_blur, threshold1=100, threshold2=200)
 
 # show output of images
-plt.subplot(3, 3, 1),plt.imshow(cv2.cvtColor(img2, cv2.COLOR_BGR2RGB), cmap = 'gray')
+plt.subplot(2, 3, 1),plt.imshow(cv2.cvtColor(img2, cv2.COLOR_BGR2RGB), cmap = 'gray') # main image
 plt.title('Original'), plt.xticks([]), plt.yticks([])
-plt.subplot(3, 3, 2),plt.imshow(gray2, cmap = 'gray')
+plt.subplot(2, 3, 2),plt.imshow(gray2, cmap = 'gray') # grayscale image
 plt.title('Grayscale'), plt.xticks([]), plt.yticks([])
-plt.subplot(3, 3, 3),plt.imshow(sobelx, cmap = 'gray')
-plt.title('Sobel Horizontal'), plt.xticks([]), plt.yticks([])
-plt.subplot(3, 3, 4),plt.imshow(sobely, cmap = 'gray')
-plt.title('Sobel Vertical'), plt.xticks([]), plt.yticks([])
-plt.subplot(3, 3, 5),plt.imshow(sobelxy, cmap = 'gray')
-plt.title('Sobel Vertical'), plt.xticks([]), plt.yticks([])
-
+plt.subplot(2, 3, 3),plt.imshow(sobelx, cmap = 'gray') # sobel x image
+plt.title('Sobel X'), plt.xticks([]), plt.yticks([])
+plt.subplot(2, 3, 4),plt.imshow(sobely, cmap = 'gray') # sobel y image
+plt.title('Sobel Y'), plt.xticks([]), plt.yticks([])
+plt.subplot(2, 3, 5),plt.imshow(sobelxy, cmap = 'gray') # sobel x and y image
+plt.title('Sobel X and Y'), plt.xticks([]), plt.yticks([])
+plt.subplot(2, 3, 6),plt.imshow(canny, cmap = 'gray') # canny image
+plt.title('Canny Detection'), plt.xticks([]), plt.yticks([])
 plt.show()
 
