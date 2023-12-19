@@ -25,28 +25,47 @@
 
       //class ball
       class Ball { 
-        constructor (X, Y, XSpeed, YSpeed, radius){
+        constructor (X, Y, XSpeed, YSpeed, radius, Spin){
           //attributes
           this.x = X;
           this.y = Y;
           this.dx = XSpeed;
           this.dy = YSpeed;
           this.r = radius;
+          this.s = Spin;
+           this.R = 0;
         }
         //draws the ball
         drawBall(){
           
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
-          return ctx.stroke();
+
+          var r = this.R * (Math.PI / 180);
+          var x1 = this.x + (this.r * Math.cos(7 * Math.PI / 4 + r));
+          var y1 = this.y + (this.r * Math.sin(7 * Math.PI / 4 + r));
+          ctx.moveTo(x1, y1);
+          var x2 = this.x + (this.r * Math.cos(3 * Math.PI / 4 + r));
+          var y2 = this.y + (this.r * Math.sin(3 * Math.PI / 4 + r));
+          ctx.lineTo(x2, y2);
+          var x3 = this.x + (this.r * Math.cos(5 * Math.PI / 4 + r));
+          var y3 = this.y + (this.r * Math.sin(5 * Math.PI / 4 + r));
+          ctx.moveTo(x3, y3);
+          var x4 = this.x + (this.r * Math.cos(1 * Math.PI / 4 + r));
+          var y4 = this.y + (this.r * Math.sin(1 * Math.PI / 4 + r));
+          ctx.lineTo(x4, y4);
+
+          ctx.stroke();
         }
         //moves ball
         moveBall(){
 
             this.x += this.dx;
             this.y += this.dy;
+            this.R += this.s;
             return this.x; 
             return this.y;
+
         }
         //bounces horizontally
         bounceV(){
@@ -65,7 +84,7 @@
       }
 
       //object to define class ball
-      const bounceball = new Ball(10, 10, 5, 5, 5);
+      const bounceball = new Ball(20, 20, 2, 2, 15, 2);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
